@@ -151,13 +151,13 @@ function wssconnect(socket,url,type){
 			if(istrick){
 				var trickName = umessage.substring(1);
 				if(trickName == 'dark'){
-					msg('User 'uname+" triggers a trick: '"+trickName+"'. Type 'light' to recover");
+					msg('User '+uname+" triggers a trick: '"+trickName+"'. Type 'light' to recover");
 					canvas.style.background = "#000000";
 				} else if(trickName == 'light'){
-					msg('User 'uname+" triggers a trick: '"+trickName+"'.");
+					msg('User '+uname+" triggers a trick: '"+trickName+"'.");
 					canvas.style.background = "";
 				} else if(trickName == 'shake' || trickName == 'rainbow'){
-					msg('User 'uname+" triggers a trick: '"+trickName+"'.");
+					msg('User '+uname+" triggers a trick: '"+trickName+"'.");
 					tricks[trickName] = true;
 					if(trickTimeouts[trickName] != null){
 						clearTimeout(trickTimeouts[trickName]);
