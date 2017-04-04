@@ -30,10 +30,9 @@ function msg(m){
 	history.scrollTop = history.scrollHeight;
 }
 
-function umsg(m, uname, userid){
+function umsg(m, uname){
 	if(debug) console.log('UMessage: ' + m);
 	var entry = document.createElement("DIV");
-	if(uname == "") uname = userid;
 	entry.className = "umessage_entry";
 	entry.innerHTML = '>> <span class="message_entry_sender">'+uname+': </span>' + m;
 	
@@ -145,18 +144,20 @@ function wssconnect(socket,url,type){
 			var uname = data.uname;
 			var umessage = data.umessage;
 			var istrick = data.istrick;
-			umsg(umessage, uname, userid);
+
+			if(uname == "") uname = userid;
+			umsg(umessage, uname);
 			
 			if(istrick){
 				var trickName = umessage.substring(1);
 				if(trickName == 'dark'){
-					msg(uname+" triggered a trick: '"+trickName+"'. Type 'light' to recover");
+					msg('User 'uname+" triggers a trick: '"+trickName+"'. Type 'light' to recover");
 					canvas.style.background = "#000000";
 				} else if(trickName == 'light'){
-					msg(uname+" triggered a trick: '"+trickName+"'.");
+					msg('User 'uname+" triggers a trick: '"+trickName+"'.");
 					canvas.style.background = "";
 				} else if(trickName == 'shake' || trickName == 'rainbow'){
-					msg(uname+" triggered a trick: '"+trickName+"'.");
+					msg('User 'uname+" triggers a trick: '"+trickName+"'.");
 					tricks[trickName] = true;
 					if(trickTimeouts[trickName] != null){
 						clearTimeout(trickTimeouts[trickName]);
