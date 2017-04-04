@@ -84,7 +84,7 @@ function wssconnect(socket,url,type){
 				};
 				strokes.push(stroke);
 			}
-			console.log(strokes);
+			// console.log(strokes);
 		} else if(data.cmd == "removestroke"){
 			var n = strokes.length;
 			var removestrokeid = data.val;
@@ -108,7 +108,7 @@ function wssconnect(socket,url,type){
 				}
 			}
 		} else if(data.cmd == "changecolor"){
-			console.log(data);
+			// console.log(data);
 			var strokeid = data.id;
 			var color = data.val;
 
@@ -131,7 +131,7 @@ function wssconnect(socket,url,type){
 				msg("Screen is clear!");
 			}
 		} else if(data.cmd == "umessage"){
-			console.log(data);
+			//console.log(data);
 			var userid = data.id;
 			var uname = data.uname;
 			var umessage = data.umessage;
