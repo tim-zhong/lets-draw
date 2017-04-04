@@ -34,7 +34,6 @@ document.getElementById("clear_button").addEventListener("click",voteClear);
 document.getElementById("usubmit").addEventListener("click",uSendMessage);
 
 document.getElementById("umessage").addEventListener("keyup", function(e){
-	console.log(e);
 	if(e.keyCode == 13){
 		uSendMessage();
 	}
