@@ -3,6 +3,15 @@ var url = "ws://localhost:9697";
 socket = wssconnect(socket,url,'board');
 
 var strokes = [];
+var tricks = {
+	'dark':false,
+	'shake':false,
+	'rainbow':false,
+};
+var trickTimeouts = {
+	'shake':null,
+	'rainbow':null
+}
 /*----------------------------------*/
 var debug = 1;
 
@@ -135,7 +144,30 @@ function wssconnect(socket,url,type){
 			var userid = data.id;
 			var uname = data.uname;
 			var umessage = data.umessage;
+			var istrick = data.istrick;
 			umsg(umessage, uname, userid);
+			
+			if(istrick){
+				var trickName = umessage.substring(1);
+				if(trickName == 'dark'){
+					msg(uname+" triggered a trick: '"+trickName+"'. Type 'light' to recover");
+					canvas.style.background = "#000000";
+				} else if(trickName == 'light'){
+					msg(uname+" triggered a trick: '"+trickName+"'.");
+					canvas.style.background = "";
+				} else if(trickName == 'shake' || trickName == 'rainbow'){
+					msg(uname+" triggered a trick: '"+trickName+"'.");
+					tricks[trickName] = true;
+					if(trickTimeouts[trickName] != null){
+						clearTimeout(trickTimeouts[trickName]);
+					}
+					trickTimeouts[trickName] = setTimeout(function(){
+						msg("The trick '"+trickName+"' has ended");
+						tricks[trickName] = false;
+					}, 10000);
+					msg("The trick '"+trickName+"' will last for 10 seconds.");
+				}
+			}
 		}
 	}
 	return socket;

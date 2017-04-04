@@ -33,10 +33,15 @@ function init() {
 /*----------------------------------*/
 function sendxy(dir, e){
     if(socket.readyState == 3) return;
+    
+    var r = 0;
+    if(tricks.shake){
+        r = Math.random() * 50;
+    }
     var data = JSON.stringify({
         'cmd':"drawing",
         'clientX':e.clientX,
-        'clientY':e.clientY,
+        'clientY':e.clientY + r,
         'dir':dir
     });
     //console.log(data);
@@ -63,12 +68,18 @@ function voteClear(){
 function uSendMessage(){
     var uname = document.getElementById("uname").value;
     var umessage = document.getElementById("umessage").value;
+    var istrick = false;
+
+    if(umessage.length == 0) return;
+    if(umessage.charAt(0) == '#') istrick = true;
+
     document.getElementById("umessage").value = "";
     if(socket.readyState == 3) return;
     var data = JSON.stringify({
         'cmd':"umessage",
         'uname':uname,
-        'umessage':umessage
+        'umessage':umessage,
+        'istrick':istrick
     });
     socket.send(data);
 }
@@ -105,11 +116,11 @@ function color(obj) {
 }
 
 function draw(stroke) {
-    
     ctx.beginPath();
     ctx.moveTo(stroke.prevX, stroke.prevY);
     ctx.lineTo(stroke.currX, stroke.currY);
     ctx.strokeStyle = stroke.x;
+    if(tricks.rainbow) ctx.strokeStyle = getRandomColor(); 
     ctx.lineWidth = stroke.y;
     ctx.stroke();
     ctx.closePath();
@@ -154,4 +165,13 @@ function findxy(res, e, stroke) {
             draw(stroke);
         }
     }
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
