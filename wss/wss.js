@@ -1,6 +1,8 @@
 var socket = null;
 var url = "ws://localhost:9697";
 socket = wssconnect(socket,url,'board');
+
+var strokes = [];
 /*----------------------------------*/
 var debug = 1;
 
@@ -10,6 +12,25 @@ function err(m){
 
 function msg(m){
 	if(debug) console.log('Message: ' + m);
+	var entry = document.createElement("DIV");
+	entry.className = "message_entry";
+	entry.innerHTML = '>> <span class="message_entry_sender">System: </span>' + m;
+
+	var history = document.getElementById("history");
+	history.appendChild(entry);
+	history.scrollTop = history.scrollHeight;
+}
+
+function umsg(m, uname, userid){
+	if(debug) console.log('UMessage: ' + m);
+	var entry = document.createElement("DIV");
+	if(uname == "") uname = userid;
+	entry.className = "umessage_entry";
+	entry.innerHTML = '>> <span class="message_entry_sender">'+uname+': </span>' + m;
+	
+	var history = document.getElementById("history");
+	history.appendChild(entry);
+	history.scrollTop = history.scrollHeight;
 }
 
 
@@ -74,7 +95,6 @@ function wssconnect(socket,url,type){
 				}
 			}
 		} else if(data.cmd == "drawing"){
-			data = data.val;
 			var strokeid = data.id;
 			var e = {'clientX':data.clientX, 'clientY':data.clientY};
 			var dir = data.dir;
@@ -87,6 +107,35 @@ function wssconnect(socket,url,type){
 					findxy(dir, e, stroke);
 				}
 			}
+		} else if(data.cmd == "changecolor"){
+			console.log(data);
+			var strokeid = data.id;
+			var color = data.val;
+
+			var stroke;
+			var n = strokes.length;
+			for(var i = 0; i< n; i++){
+				stroke = strokes[i];
+				if(stroke.id == strokeid){
+					stroke.x = color;
+				}
+			}
+		} else if(data.cmd == "voteclear"){
+			var userid = data.id;
+			var nusers = data.nusers;
+			var nvotes = data.nvotes;
+
+			msg(userid+" votes to clear the canvas." + "("+nvotes+"/"+nusers+" voted)");
+			if(nvotes == nusers){
+				erase();
+				msg("Screen is clear!");
+			}
+		} else if(data.cmd == "umessage"){
+			console.log(data);
+			var userid = data.id;
+			var uname = data.uname;
+			var umessage = data.umessage;
+			umsg(umessage, uname, userid);
 		}
 	}
 	return socket;

@@ -14,13 +14,12 @@ class Server extends WebSocketServer{
 	protected function connected($user){
 		foreach($this->users as $u){
 			if($u->id == $user->id){
-				$msg = "Hello".$user->id.", welcome onboard!";
+				$msg = "Hello ".$user->id.", welcome onboard!";
 				
 				$ids = array();
 				foreach($this->users as $u){
 					array_push($ids, $u->id);
 				}
-
 			} else {
 				$msg = $user->id.' is onboard';
 
@@ -44,6 +43,9 @@ class Server extends WebSocketServer{
 			$data = json_encode($arr);
 			$this->send($u,$data);
 		}
+		foreach($this->users as $u){
+			$u->voteclear = false;
+		}
 	}
 
 	protected function process($user,$message){
@@ -51,11 +53,36 @@ class Server extends WebSocketServer{
 		if($obj->cmd == 'drawing'){
 			$obj->id = $user->id;
 		}
-		$arr = array(
-			"cmd"=>"drawing",
-			"val"=>$obj
-		);
-		$data = json_encode($arr);
+		if($obj->cmd == 'changecolor'){
+			$obj->id = $user->id;
+		}
+		if($obj->cmd == 'voteclear'){
+			$obj->id = $user->id;
+			
+			$nusers = 0;
+			$nvotes = 0;
+			foreach($this->users as $u){
+				$nusers++;
+				if($u->id == $user->id){
+					$u->voteclear = true;
+				}
+				if($u->voteclear == true){
+					$nvotes++;
+				}
+			}
+			if($nusers == $nvotes){
+				foreach($this->users as $u){
+					$u->voteclear = false;
+				}
+			}
+			$obj->nusers = $nusers;
+			$obj->nvotes = $nvotes;
+		}
+		if($obj->cmd == 'umessage'){
+			$obj->id = $user->id;
+		}
+		
+		$data = json_encode($obj);
 		foreach($this->users as $u){
 			$this->send($u,$data);
 		}
@@ -63,6 +90,11 @@ class Server extends WebSocketServer{
 
 	protected function closed($user){
 		foreach($this->users as $u){
+
+			foreach($this->users as $u){
+				$u->voteclear = false;
+			}
+
 			$arr = array(
 				"cmd"=>"message",
 				"val"=>$user->id.' has disconnected'

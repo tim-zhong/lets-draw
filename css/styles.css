@@ -1,0 +1,145 @@
+/*#3f5eb5*/
+body{
+	margin:0px;
+	position: relative;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 300;
+	color:#333333;
+}
+
+#canvas{
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#tool_bar{
+	padding:30px 0;
+	border-bottom:1px solid #f1f1f1;
+	text-align: center;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+	position: absolute;
+	right:0;
+	box-shadow: -5px 5px 10px rgba(0,0,0,0.1);
+	top:0;
+}
+
+.color_container{
+	border:1px solid #dedede;
+	width:30px;
+	height:30px;
+	border-radius: 15px;
+	margin:10px auto;
+	padding:4px;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+#color_container_white{
+	background: #333333;
+}
+
+.color{
+	margin:0 auto;
+	width:20px;
+	height:20px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+#toolbar_buttons_container{
+	bottom: 0;
+	right: 0;
+    position: absolute;
+    width:78px;
+}
+
+.toolbar_button{
+	border-top:1px solid #dedede;
+	padding: 5px;
+	background: 
+	margin-bottom:-1px;
+	width:100%;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    font-size:16px;
+}
+.toolbar_button:hover{
+	cursor: pointer;
+	background: #fcfcfc;
+}
+
+#interaction_box{
+	position: absolute;
+	border-top:3px solid #3f5eb5;
+	bottom: 0px;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    left:0;
+    height: 230px;
+    width: 100%;
+    box-shadow: -5px -5px 10px rgba(0,0,0,0.1);
+}
+
+#history{
+	margin:20px 30px;
+	border:1px solid #dedede;
+	border-left: 6px solid #333333;
+	height: 128px;
+	overflow-y:scroll;
+	font-family: 'Roboto Slab', serif;
+	font-size:14px;
+}
+
+#input_container{
+	position: absolute;
+	bottom: 0px;
+	padding:30px;
+	width:100%;
+}
+
+#umessage, #uname{
+	display: inline;
+	outline: none;
+	font-size:16px;
+	padding:5px;
+	border:1px solid #dedede;
+}
+
+#uname{
+	width:16%;
+	text-align: center;
+}
+
+#umessage{
+	outline: none;
+	width:50%;
+}
+
+#usubmit{
+	margin-left:5px;
+	font-size: 16px;
+	text-align: center;
+	padding: 5px;
+	display: inline-block;
+	width:50px;
+	color:#ffffff;
+	background: #3f5eb5;
+	border:1px solid #2e4aa4;
+}
+#usubmit:hover{
+	cursor: pointer;
+	background: #2e4aa4;
+}
+
+.message_entry .message_entry_sender{
+	color:#999999;
+}
+.umessage_entry .message_entry_sender{
+	color:#3f5eb5;
+}
