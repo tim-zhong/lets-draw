@@ -135,10 +135,10 @@ function findxy(res, e, stroke) {
         stroke.flag = true;
         stroke.dot_flag = true;
         if (stroke.dot_flag) {
-            ctx.beginPath();
-            ctx.fillStyle = stroke.x;
-            ctx.fillRect(stroke.currX, stroke.currY, 2, 2);
-            ctx.closePath();
+            // ctx.beginPath();
+            // ctx.fillStyle = stroke.x;
+            // ctx.fillRect(stroke.currX, stroke.currY, stroke.y, stroke.y);
+            // ctx.closePath();
             stroke.dot_flag = false;
         }
     }

@@ -79,7 +79,7 @@ function wssconnect(socket,url,type){
 			        'currY': 0,
 			        'dot_flag': false,
 			        'x': "black",
-			        'y': "2",
+			        'y': 5,
 			        'flag': false
 				};
 				strokes.push(stroke);
