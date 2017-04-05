@@ -69,6 +69,12 @@ function uSendMessage(){
     var uname = document.getElementById("uname").value;
     var umessage = document.getElementById("umessage").value;
     var istrick = false;
+    //temp========
+    if(umessage == "@"){
+        getWord();
+        return;
+    }
+    //===========
 
     if(umessage.length == 0) return;
     if(umessage.charAt(0) == '#') istrick = true;
